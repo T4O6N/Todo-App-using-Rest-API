@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddTodoPage extends StatefulWidget {
-  const AddTodoPage({super.key});
+  final Map? todo;
+  const AddTodoPage({
+    super.key,
+    this.todo,
+  });
 
   @override
   State<AddTodoPage> createState() => _AddTodoPageState();

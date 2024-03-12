@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:todo_app/screens/add_page.dart';
 import 'package:http/http.dart' as http;
 
@@ -46,6 +44,7 @@ class _TodoListPageState extends State<TodoListPage> {
                   onSelected: (value) {
                     if (value == 'edit') {
                       // Open Edit Page
+                      navigateToEditPage(item);
                     } else if (value == 'delete') {
                       // Delete and remove the item
                       deleteById(id);
@@ -76,11 +75,23 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
-  void navigateToAddPage() {
+  void navigateToEditPage(Map item) {
+    final route = MaterialPageRoute(
+      builder: (context) => AddTodoPage(todo: item),
+    );
+    Navigator.push(context, route);
+  }
+
+  Future<void> navigateToAddPage() async {
     final route = MaterialPageRoute(
       builder: (context) => AddTodoPage(),
     );
-    Navigator.push(context, route);
+    await Navigator.push(context, route);
+    // Auto refresh after add
+    setState(() {
+      isLoading = true;
+    });
+    fetchTodo();
   }
 
   Future<void> deleteById(String id) async {
@@ -96,6 +107,7 @@ class _TodoListPageState extends State<TodoListPage> {
       });
     } else {
       // Show error
+      showErrorMessage('Deletion Failed');
     }
   }
 
@@ -113,5 +125,16 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
