@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/screens/add_page.dart';
 import 'package:todo_app/service/todo_service.dart';
 import 'package:todo_app/utils/snackbar_helper.dart';
+import 'package:todo_app/widget/todo_card.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
@@ -44,36 +45,11 @@ class _TodoListPageState extends State<TodoListPage> {
               padding: EdgeInsets.all(10),
               itemBuilder: (context, index) {
                 final item = items[index] as Map;
-                final id = item['_id'] as String;
-                return Card(
-                  child: ListTile(
-                    leading: CircleAvatar(child: Text('${index + 1}')),
-                    title: Text(item['title']),
-                    subtitle: Text(item['description']),
-                    trailing: PopupMenuButton(
-                      onSelected: (value) {
-                        if (value == 'edit') {
-                          // Open Edit Page
-                          navigateToEditPage(item);
-                        } else if (value == 'delete') {
-                          // Delete and remove the item
-                          deleteById(id);
-                        }
-                      },
-                      itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(
-                            child: Text('Edit'),
-                            value: 'edit',
-                          ),
-                          PopupMenuItem(
-                            child: Text('Delete'),
-                            value: 'delete',
-                          )
-                        ];
-                      },
-                    ),
-                  ),
+                return TodoCard(
+                  index:  index,
+                  item: item,
+                  deleteById: deleteById,
+                  navigateToEdit: navigateToEditPage,
                 );
               },
             ),
