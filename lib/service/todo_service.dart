@@ -42,6 +42,6 @@ class TodoService {
       body: jsonEncode(body),
       headers: {'Content-Type': 'application/json'},
     );
-    return response.statusCode == 200;
+    return response.statusCode == 201;
   }
 }

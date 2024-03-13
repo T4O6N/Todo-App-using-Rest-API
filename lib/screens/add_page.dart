@@ -57,7 +57,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
           ),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: isEdit ? updateTodo : submitData,
+            onPressed: isEdit ? updateData : submitData,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -70,7 +70,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
     );
   }
 
-  Future<void> updateTodo() async {
+  Future<void> updateData() async {
     // Get the data from form
     final todo = widget.todo;
     if (todo == null) {
